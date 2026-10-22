@@ -9,7 +9,10 @@ const SLOGAN = [
     "Turn Key",
     "Interior Projects",
 ];
-const ADDRESS = ["HOS Studio, Your Street Name", "Raipur, Chhattisgarh 491001, India"];
+const ADDRESS = [
+    "HOS Studio, Your Street Name",
+    "Raipur, Chhattisgarh 491001, India",
+];
 
 const LINKS = [
     { label: "About Us", href: "#about" },
@@ -20,7 +23,8 @@ const LINKS = [
 ];
 
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+const easeInOut = (t) =>
+    t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
 const STROKES = [
     { color: "#ff5c8a", w: 92, d: "M-80 120 C300 40 500 200 800 120 S1250 60 1520 140" },
@@ -31,7 +35,9 @@ const STROKES = [
     { color: "#ff7a45", w: 92, d: "M1520 820 C1200 880 900 740 600 830 S200 880 -80 800" },
 ];
 
-const DRAW_START_STEP = 0.055;
+// ---- Timing (0 to 1 of the animation progress) ----
+const START_VISIBLE = 0.2; // animation starts when 20% of the section is visible
+const DRAW_START_STEP = 0.055; // delay between each brush
 const DRAW_DURATION = 0.3;
 const TEXT_START = 0.6;
 
@@ -57,6 +63,11 @@ const fade = (delay) => {
     };
 };
 
+// Rise from behind a mask, driven by --t
+const rise = (delay) => ({
+    transform: `translateY(calc((1 - clamp(0, calc((var(--t) - ${delay}) * 3), 1)) * 115%))`,
+});
+
 export default function BrushSection() {
     const sectionRef = useRef(null);
     const pathRefs = useRef([]);
@@ -73,8 +84,13 @@ export default function BrushSection() {
         let frame;
         const update = () => {
             const rect = section.getBoundingClientRect();
-            const total = rect.height - window.innerHeight;
-            const raw = clamp(-rect.top / total);
+            const vh = window.innerHeight;
+            const total = rect.height - vh;
+
+            // Progress is 0 when 20% of the section is visible
+            // (its top is at 80% of the viewport) and 1 when the pinned scroll ends.
+            const startTop = vh * (1 - START_VISIBLE);
+            const raw = clamp((startTop - rect.top) / (startTop + total));
 
             STROKES.forEach((_, i) => {
                 const path = pathRefs.current[i];
@@ -122,16 +138,12 @@ export default function BrushSection() {
         };
     }, []);
 
-    const rise = (delay) => ({
-        transform: `translateY(calc((1 - clamp(0, calc((var(--t) - ${delay}) * 3), 1)) * 115%))`,
-    });
-
     return (
         <section
             id="about"
             ref={sectionRef}
             style={{ "--t": 0 }}
-            className="relative h-[360vh] bg-white"
+            className="relative h-[400vh] bg-white"
         >
             <div className="sticky top-0 h-screen overflow-hidden">
                 {/* Strokes + brushes */}
@@ -186,7 +198,10 @@ export default function BrushSection() {
                                 aria-hidden="true"
                                 className="mr-[0.22em] inline-block overflow-hidden pb-[0.1em] align-bottom last:mr-0"
                             >
-                                <span className="inline-block will-change-transform" style={rise(i * 0.1)}>
+                                <span
+                                    className="inline-block will-change-transform"
+                                    style={rise(i * 0.1)}
+                                >
                                     {word === "Styles" ? (
                                         <span className="bg-gradient-to-r from-[#ff5c8a] via-[#7c5cff] to-[#2de2e6] bg-clip-text text-transparent">
                                             {word}
@@ -209,7 +224,10 @@ export default function BrushSection() {
                                 aria-hidden="true"
                                 className="mr-[0.3em] inline-block overflow-hidden pb-[0.15em] align-bottom last:mr-0"
                             >
-                                <span className="inline-block will-change-transform" style={rise(0.4 + i * 0.06)}>
+                                <span
+                                    className="inline-block will-change-transform"
+                                    style={rise(0.4 + i * 0.06)}
+                                >
                                     {word}
                                 </span>
                             </span>

@@ -1,10 +1,9 @@
-const BIG = "w-[40vw] md:w-[23vw]";
-const SMALL = "w-[22vw] md:w-[11.7vw]";
+const BIG = "w-[23vw]";
+const SMALL = "w-[11.7vw]";
 
-// Horizontal slots
-const L = "left-[2%] md:left-[1%]";
-const C = "hidden md:block md:left-[35.6%]"; // center images hidden on mobile
-const R = "left-[58%] md:left-[70%]";
+const L = "left-[1%]";
+const C = "left-[35.6%]";
+const R = "left-[70%]";
 
 const img = (seed) => `https://picsum.photos/seed/${seed}/700/875`;
 
