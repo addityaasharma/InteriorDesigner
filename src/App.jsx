@@ -1,8 +1,8 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Showcase from "./components/Showcase";
-import Footer from "./components/Footer";
 import BrushSection from "./components/BrushSection";
+import GalleryAbout from "./components/GalleryAbout";
 
 export default function App() {
   return (
@@ -10,6 +10,7 @@ export default function App() {
       <Navbar />
       <Hero />
       <Showcase />
+      <GalleryAbout/>
       <BrushSection/>
     </>
   );
