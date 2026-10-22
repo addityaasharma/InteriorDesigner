@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 // ---- Edit these ----
-const WHATSAPP_NUMBER = "910000000000"; // country code + number, no "+" or spaces
-const PHONE_NUMBER = "+910000000000"; // used for the tel: link
+const WHATSAPP_NUMBER = "+919319925777"; // country code + number, no "+" or spaces
+const PHONE_NUMBER = "+919319925777"; // used for the tel: link
 const WHATSAPP_MESSAGE = "Hi HOS, I'd like to book a consultation.";
 
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
