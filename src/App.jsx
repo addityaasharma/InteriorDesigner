@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Showcase from "./components/Showcase";
 import Footer from "./components/Footer";
+import BrushSection from "./components/BrushSection";
 
 export default function App() {
   return (
@@ -9,15 +10,7 @@ export default function App() {
       <Navbar />
       <Hero />
       <Showcase />
-
-      {/* Temporary placeholder for the next section */}
-      <section
-        id="about"
-        className="grid min-h-screen place-items-center bg-[#0b0b12] text-3xl text-white"
-      >
-        Next section
-      </section>
-      <Footer/>
+      <BrushSection/>
     </>
   );
 }
